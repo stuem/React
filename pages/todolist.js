@@ -1,84 +1,98 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 // import "./todolist.css"
 import {
-    Input,
-    Checkbox,
-    Button,
-    Box,
-} from "@chakra-ui/core";
+  Input,
+  Checkbox,
+  Button,
+  Box
+} from '@chakra-ui/core'
 
 function Index() {
-    const [count, setCount] = useState("");
-    const [list, setList] = useState([]);
-    // const [falses] = useState(false);
-    // console.log(falses)
-    //增加页面内容
-    const addData = (value) => {
-        if (value) {
-            setCount("");
-            setList([
-                ...list,
-                value
-            ])
-        }
+  const data = [{
+    todo: '事情',
+    finshed: false
+  },
+  {
+    todo: '事情2',
+    finshed: true
+  },
+  {
+    todo: '事情3',
+    finshed: false
+  }]
+  // const [count, setCount] = useState("");
+  const [list, setList] = useState(data)
+  // 增加页面内容
+  function addData() {
+    const Ipus = document.getElementById('Ipus')
+    if (Ipus.value) {
+      const item = {
+        todo: Ipus.value,
+        finshed: false
+      }
+      const temp = list
+      temp.push(item)
+      console.log(temp)
+      setList([
+        ...temp
+      ])
+      Ipus.value = ''
     }
+  }
 
-    //修改
-    function setCounTinp(e) {
-        let input = document.getElementById("input" + e);
-        var value = input.value;
-        if (value) {
-            list[e] = value;
-            setList([...list]);
-            input.value = "";
-        }
+  // 修改
+  function setCounTinp(e) {
+    const input = document.getElementById('input' + e)
+    const value = input.value
+    console.log(value)
+    if (value) {
+      list[e].todo = value
+      setList([...list])
+      input.value = ''
     }
+  }
 
-    //删除
-    function liClick(e) {
-        list.splice(e, 1);
-        setList([...list]);
-        let setche = document.getElementById("setche" + e);
-        setche.className = "";
-        let check = document.getElementsByClassName("check"+e);
-        check[0].firstChild.checked = false
-    };
-    //完成
-    function setCheckedItems(e, i) {
-			console.log(e,i)
-        let setche = document.getElementById("setche" + e);
-        if (i === true) {
-            setche.className = "done";
-        } else {
-            setche.className = "";
-        }
-    }
+  // 删除
+  function liClick(e) {
+    list.splice(e, 1)
+    setList([...list])
+  };
+  // 完成
+  function setCheckedItems(i) {
+    const check = document.getElementById('check' + i).checked
+    list[i].finshed = check
+    setList([...list])
+  }
 
-    return (
-        <Box className="App" w="80%">
-            <Input errorBorderColor="red.300" value={count} onChange={(e) => setCount(e.target.value)} />
-            <Button variantColor="teal" size="xs" onClick={() => addData(count)}>添加</Button>
-            <h1><br></br></h1>
-            {
-                list.map((item, index) =>
-                    <Box key={index}>
-                        <Input id={"input" + index} placeholder={item} size="sm" w="20%" />
-                        <Checkbox className={"check" + index} onClick={(e) => setCheckedItems(index, e.target.checked)}/>
-                        <span id={"setche" + index} >{item}</span>
-                        <Button h="1.75rem" size="sm" onClick={() => setCounTinp(index)}>修改</Button>
-                        <Button h="1.75rem" size="sm" onClick={() => liClick(index)}>删除</Button>
-                    </Box>
-                )
-            }
-            <style global jsx>
-                {`
+  return (
+    <Box className='App' w='80%'>
+      <Box>
+        <Input id='Ipus' errorBorderColor='red.300' placeholder='large size' />
+        <Button variantColor='teal' size='xs' onClick={addData}>添加</Button>
+      </Box>
+      {
+        list.map((item, index) => {
+          return (
+            // console.log(item,index)
+            <Box key={index}>
+              <Input id={'input' + index} placeholder={item.todo} size='sm' w='20%' />
+              <Checkbox id={'check' + index} onClick={(e) => setCheckedItems(index)} isChecked={item.finshed} />
+              <span className={item.finshed ? 'done' : ''}>{item.todo}</span>
+              <Button h='1.75rem' size='sm' onClick={() => setCounTinp(index)}>修改</Button>
+              <Button h='1.75rem' size='sm' onClick={() => liClick(index)}>删除</Button>
+            </Box>
+          )
+        })
+      }
+      <style global jsx>
+        {`
 							.done{
 								text-decoration: line-through;
 								color: #ccc;
 						}
 					`}
-            </style>
-        </Box>
-    );
+      </style>
+    </Box>
+  )
 }
 export default Index
