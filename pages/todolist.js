@@ -7,7 +7,7 @@ import {
   Box
 } from '@chakra-ui/core'
 
-function Index() {
+function Index () {
   const data = [{
     todo: '事情',
     finshed: false
@@ -23,7 +23,7 @@ function Index() {
   // const [count, setCount] = useState("");
   const [list, setList] = useState(data)
   // 增加页面内容
-  function addData() {
+  function addData () {
     const Ipus = document.getElementById('Ipus')
     if (Ipus.value) {
       const item = {
@@ -41,7 +41,7 @@ function Index() {
   }
 
   // 修改
-  function setCounTinp(e) {
+  function setCounTinp (e) {
     const input = document.getElementById('input' + e)
     const value = input.value
     console.log(value)
@@ -53,12 +53,12 @@ function Index() {
   }
 
   // 删除
-  function liClick(e) {
+  function liClick (e) {
     list.splice(e, 1)
     setList([...list])
   };
   // 完成
-  function setCheckedItems(i) {
+  function setCheckedItems (i) {
     const check = document.getElementById('check' + i).checked
     list[i].finshed = check
     setList([...list])
@@ -73,7 +73,6 @@ function Index() {
       {
         list.map((item, index) => {
           return (
-            // console.log(item,index)
             <Box key={index}>
               <Input id={'input' + index} placeholder={item.todo} size='sm' w='20%' />
               <Checkbox id={'check' + index} onClick={(e) => setCheckedItems(index)} isChecked={item.finshed} />

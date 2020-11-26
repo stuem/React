@@ -10,7 +10,7 @@ const GET_DOGS = gql`
   }
 `
 
-function Dogs ({ onDogSelected }) {
+function Dogs({ onDogSelected }) {
   const { loading, error, data } = useQuery(GET_DOGS)
   console.log(loading, error, data)
   if (loading) return 'Loading...'
